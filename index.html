@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOUDER — Interactive Brand Moodboard & Creative Direction</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Syne, Space Grotesk, Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@700;800&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        louder: {
+                            black: '#111111',
+                            white: '#FFFFFF',
+                            red: '#E53232',
+                            grey: '#D9D9D9',
+                            darkgrey: '#1F1F1F'
+                        }
+                    },
+                    fontFamily: {
+                        syne: ['Syne', 'sans-serif'],
+                        space: ['Space Grotesk', 'monospace'],
+                        tajawal: ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #111111;
+            color: #FFFFFF;
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Grain Noise Overlay */
+        .grain-bg {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px #FFFFFF;
+            color: transparent;
+        }
+
+        .text-outline-red {
+            -webkit-text-stroke: 1px #E53232;
+            color: transparent;
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 15s linear infinite;
+        }
+
+        /* Glitch Hover Effect */
+        .glitch-hover:hover {
+            text-shadow: 2px 0 #E53232, -2px 0 #FFFFFF;
+            transform: skew(-2deg);
+        }
+
+        /* Motion blur simulation */
+        .blur-motion {
+            filter: blur(0.6px);
+            transition: all 0.3s ease;
+        }
+        .blur-motion:hover {
+            filter: blur(0px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E53232;
+        }
+    </style>
+</head>
+<body class="grain-bg relative min-h-screen selection:bg-louder-red selection:text-white">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-6 z-50 bg-louder-red text-white px-5 py-3 rounded-none shadow-2xl font-mono text-sm transform translate-y-24 opacity-0 transition-all duration-300 border border-white flex items-center gap-3">
+        <i class="fa-solid fa-check"></i>
+        <span id="toast-msg">تم نسخ الكود بنجاح!</span>
+    </div>
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-louder-black/90 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="bg-louder-red text-white text-xs font-black px-2 py-1 tracking-widest uppercase font-space">BRAND V1.0</span>
+            <h1 class="text-2xl font-black font-syne tracking-tighter text-white glitch-hover cursor-pointer">LOUDER</h1>
+        </div>
+
+        <nav class="hidden md:flex gap-8 text-sm font-mono tracking-wider">
+            <a href="#concept" class="hover:text-louder-red transition-colors">01. CONCEPT</a>
+            <a href="#palette" class="hover:text-louder-red transition-colors">02. PALETTE</a>
+            <a href="#typography" class="hover:text-louder-red transition-colors">03. TYPOGRAPHY</a>
+            <a href="#approaches" class="hover:text-louder-red transition-colors">04. 6 APPROACHES</a>
+            <a href="#logos" class="hover:text-louder-red transition-colors">05. LOGOS</a>
+        </nav>
+
+        <button onclick="copyManifesto()" class="bg-white text-louder-black hover:bg-louder-red hover:text-white px-4 py-2 font-mono text-xs font-bold transition-all duration-200 border border-white flex items-center gap-2">
+            <i class="fa-solid fa-copy"></i>
+            <span>COPY MANIFESTO</span>
+        </button>
+    </header>
+
+    <!-- Marquee Banner -->
+    <div class="bg-louder-red text-white py-2 overflow-hidden border-b border-white/20 font-space text-sm font-bold tracking-widest uppercase">
+        <div class="animate-marquee whitespace-nowrap flex gap-12">
+            <span>LOUD IS AN ART /// NOISY BY DESIGN /// EXPERIMENTAL & BOLD /// CINEMATIC ARCHIVE /// UNDERGROUND CULTURE /// EXPERIMENTAL EDITORIAL</span>
+            <span>LOUD IS AN ART /// NOISY BY DESIGN /// EXPERIMENTAL & BOLD /// CINEMATIC ARCHIVE /// UNDERGROUND CULTURE /// EXPERIMENTAL EDITORIAL</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative px-6 py-20 md:py-32 max-w-7xl mx-auto flex flex-col justify-center">
+        <div class="absolute -top-10 left-10 text-9xl font-black font-syne text-white/5 select-none pointer-events-none">LOUDER</div>
+        
+        <span class="text-louder-red font-mono text-sm tracking-widest mb-4 block">// THE CREATIVE DIRECTION</span>
+        
+        <h1 class="text-5xl md:text-8xl font-black font-syne tracking-tighter leading-none mb-6">
+            LOUD IS AN <span class="text-outline">ART.</span>
+        </h1>
+        
+        <p class="text-lg md:text-2xl text-louder-grey font-light max-w-3xl leading-relaxed mb-10">
+            علامة إبداعية تؤمن بأن التصميم ليس مجرد شكل جميل، بل وسيلة للتعبير ولفت الانتباه وصناعة الاختلاف. 
+            تعتمد على الجرأة، التجريب، وكسر الأنماط التقليدية مع تحويل الأفكار إلى تجارب بصرية لها شخصية وحضور.
+        </p>
+
+        <!-- Personality Tags -->
+        <div class="flex flex-wrap gap-3 font-mono text-xs">
+            <span class="bg-louder-darkgrey border border-white/20 px-4 py-2 rounded-none hover:border-louder-red hover:text-louder-red transition-all cursor-default">#BOLD (جريئة)</span>
+            <span class="bg-louder-darkgrey border border-white/20 px-4 py-2 rounded-none hover:border-louder-red hover:text-louder-red transition-all cursor-default">#CREATIVE (إبداعية)</span>
+            <span class="bg-louder-darkgrey border border-white/20 px-4 py-2 rounded-none hover:border-louder-red hover:text-louder-red transition-all cursor-default">#EXPERIMENTAL (تجريبية)</span>
+            <span class="bg-louder-darkgrey border border-white/20 px-4 py-2 rounded-none hover:border-louder-red hover:text-louder-red transition-all cursor-default">#CONTEMPORARY (معاصرة)</span>
+            <span class="bg-louder-darkgrey border border-white/20 px-4 py-2 rounded-none hover:border-louder-red hover:text-louder-red transition-all cursor-default">#UNCONVENTIONAL (غير تقليدية)</span>
+            <span class="bg-louder-darkgrey border border-white/20 px-4 py-2 rounded-none hover:border-louder-red hover:text-louder-red transition-all cursor-default">#ARTISTIC (فنية)</span>
+        </div>
+    </section>
+
+    <!-- 3 Worlds DNA Section -->
+    <section id="concept" class="border-t border-white/10 py-20 px-6 max-w-7xl mx-auto">
+        <div class="mb-12">
+            <span class="text-louder-red font-mono text-xs block mb-1">01. VISUAL DNA</span>
+            <h2 class="text-3xl md:text-5xl font-black font-syne">تكامل العوالم الثلاثة</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- World 1 -->
+            <div class="border border-white/10 p-6 bg-louder-darkgrey/40 relative group hover:border-louder-red transition-all duration-300">
+                <div class="text-4xl text-louder-red mb-4 font-mono font-bold">01</div>
+                <h3 class="text-xl font-bold font-syne mb-2 text-white">Cinematic Archive</h3>
+                <p class="text-sm text-louder-grey leading-relaxed mb-6">الصور السينمائية والأرشيفية واللقطات العفوية (Candid). اعتماد الحبيبات الفيلمية (Film Grain) والإضاءة الحادة.</p>
+                <div class="h-40 bg-black/60 border border-white/10 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                    <img src="https://images.unsplash.com/photo-1518173946687-a4c8a383392e?auto=format&fit=crop&w=600&q=80" alt="Cinematic Archive" class="object-cover h-full w-full opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                    <span class="absolute bottom-2 left-2 text-[10px] font-mono bg-black/80 px-2 py-0.5 text-white/70">35MM FILM GRAIN</span>
+                </div>
+            </div>
+
+            <!-- World 2 -->
+            <div class="border border-white/10 p-6 bg-louder-darkgrey/40 relative group hover:border-louder-red transition-all duration-300">
+                <div class="text-4xl text-louder-red mb-4 font-mono font-bold">02</div>
+                <h3 class="text-xl font-bold font-syne mb-2 text-white">Experimental Editorial</h3>
+                <p class="text-sm text-louder-grey leading-relaxed mb-6">التكوينات التحريرية الشديدة والتايبوغرافي الجريء، مع التباين العالي بين الأحجام الكبيرة والمستندات الدقيقة.</p>
+                <div class="h-40 bg-black/60 border border-white/10 p-4 flex flex-col justify-between group-hover:scale-[1.02] transition-transform">
+                    <div class="text-3xl font-black font-syne tracking-tighter text-outline">EDITORIAL</div>
+                    <div class="text-[9px] font-mono text-louder-grey leading-tight">
+                        LOUDER BRAND GUIDELINES / VOL 01 / STRICTLY EXPERIMENTAL / NO RULES ATTACHED
+                    </div>
+                </div>
+            </div>
+
+            <!-- World 3 -->
+            <div class="border border-white/10 p-6 bg-louder-darkgrey/40 relative group hover:border-louder-red transition-all duration-300">
+                <div class="text-4xl text-louder-red mb-4 font-mono font-bold">03</div>
+                <h3 class="text-xl font-bold font-syne mb-2 text-white">Underground Culture</h3>
+                <p class="text-sm text-louder-grey leading-relaxed mb-6">الكولاج والقصاصات والخامات والتجريب التحريري اليدوي. إحساس البوستر الشارعي وطباعة الريزوغراف.</p>
+                <div class="h-40 bg-louder-black border border-white/10 p-4 relative flex items-center justify-center overflow-hidden group-hover:scale-[1.02] transition-transform">
+                    <div class="absolute inset-0 bg-louder-red/20 mix-blend-overlay"></div>
+                    <div class="border-2 border-dashed border-white/40 p-3 transform -rotate-3 bg-louder-black text-center">
+                        <span class="text-xs font-mono font-bold text-louder-red block">CUT & PASTE</span>
+                        <span class="text-[10px] font-mono text-white">RAW TEXTURES</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Color Palette Interactive Section -->
+    <section id="palette" class="border-t border-white/10 py-20 px-6 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+            <div>
+                <span class="text-louder-red font-mono text-xs block mb-1">02. COLOR SYSTEM</span>
+                <h2 class="text-3xl md:text-5xl font-black font-syne">لوحة الألوان الأساسية</h2>
+            </div>
+            <span class="text-xs font-mono text-louder-grey">اضغط على أي لون لنسخ الكود (HEX)</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Color 1 -->
+            <div onclick="copyColor('#111111')" class="border border-white/20 p-5 bg-louder-black hover:border-louder-red cursor-pointer transition-all duration-200 group">
+                <div class="h-32 w-full bg-[#111111] border border-white/10 mb-4 flex items-end p-3 justify-between">
+                    <span class="font-mono text-xs text-white/50">50% RATIO</span>
+                    <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 transition-opacity text-white"></i>
+                </div>
+                <h4 class="font-bold font-syne text-lg">Pitch Black</h4>
+                <p class="font-mono text-xs text-louder-grey mt-1">#111111</p>
+                <p class="text-xs text-white/60 mt-3">الخلفيات الأساسية، والظلال العمومية.</p>
+            </div>
+
+            <!-- Color 2 -->
+            <div onclick="copyColor('#FFFFFF')" class="border border-white/20 p-5 bg-louder-black hover:border-louder-red cursor-pointer transition-all duration-200 group">
+                <div class="h-32 w-full bg-[#FFFFFF] border border-white/10 mb-4 flex items-end p-3 justify-between">
+                    <span class="font-mono text-xs text-black/50">35% RATIO</span>
+                    <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 transition-opacity text-black"></i>
+                </div>
+                <h4 class="font-bold font-syne text-lg">Pure White</h4>
+                <p class="font-mono text-xs text-louder-grey mt-1">#FFFFFF</p>
+                <p class="text-xs text-white/60 mt-3">النصوص التحريرية والمساحات الفارغة.</p>
+            </div>
+
+            <!-- Color 3 -->
+            <div onclick="copyColor('#E53232')" class="border border-white/20 p-5 bg-louder-black hover:border-louder-red cursor-pointer transition-all duration-200 group">
+                <div class="h-32 w-full bg-[#E53232] border border-white/10 mb-4 flex items-end p-3 justify-between">
+                    <span class="font-mono text-xs text-white/70">5% ACCENT</span>
+                    <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 transition-opacity text-white"></i>
+                </div>
+                <h4 class="font-bold font-syne text-lg text-louder-red">Vibrant Red</h4>
+                <p class="font-mono text-xs text-louder-grey mt-1">#E53232</p>
+                <p class="text-xs text-white/60 mt-3">بؤرة التركيز والرموز والشرارة البصرية.</p>
+            </div>
+
+            <!-- Color 4 -->
+            <div onclick="copyColor('#D9D9D9')" class="border border-white/20 p-5 bg-louder-black hover:border-louder-red cursor-pointer transition-all duration-200 group">
+                <div class="h-32 w-full bg-[#D9D9D9] border border-white/10 mb-4 flex items-end p-3 justify-between">
+                    <span class="font-mono text-xs text-black/50">10% SECONDARY</span>
+                    <i class="fa-regular fa-copy opacity-0 group-hover:opacity-100 transition-opacity text-black"></i>
+                </div>
+                <h4 class="font-bold font-syne text-lg">Raw Grey</h4>
+                <p class="font-mono text-xs text-louder-grey mt-1">#D9D9D9</p>
+                <p class="text-xs text-white/60 mt-3">الخلفيات الثانوية والتكستشر الورقي.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Typography Playground Section -->
+    <section id="typography" class="border-t border-white/10 py-20 px-6 max-w-7xl mx-auto">
+        <div class="mb-12">
+            <span class="text-louder-red font-mono text-xs block mb-1">03. TYPOGRAPHY & SCALING</span>
+            <h2 class="text-3xl md:text-5xl font-black font-syne">أسلوب التايبوغرافي</h2>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div>
+                    <span class="text-xs font-mono text-louder-red block mb-2">HEADLINES (ULTRA BOLD / CONDENSED)</span>
+                    <h3 class="text-5xl md:text-7xl font-black font-syne tracking-tighter uppercase leading-none">
+                        LOUD & UNFILTERED
+                    </h3>
+                </div>
+
+                <div class="border-t border-white/10 pt-6">
+                    <span class="text-xs font-mono text-louder-grey block mb-2">BODY & TECHNICAL DETAILS (MONOSPACE)</span>
+                    <p class="font-mono text-sm text-louder-grey leading-relaxed">
+                        LOUDER DOES NOT ADHERE TO QUIET DESIGN RULES. EVERY LAYOUT IS A STATEMENT OF CREATIVE INTENT. SYSTEM VER 1.0.9 // NO COMPROMISE.
+                    </p>
+                </div>
+
+                <div class="border-t border-white/10 pt-6">
+                    <span class="text-xs font-mono text-louder-red block mb-2">EXPERIMENTAL ACCENT</span>
+                    <p class="font-serif italic text-2xl text-white">
+                        "Design is not neutral; it speaks louder than words."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interactive Font Scale Demo -->
+            <div class="bg-louder-darkgrey/60 border border-white/10 p-6 md:p-8 relative">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-mono text-xs text-louder-grey">INTERACTIVE TYPE TESTER</span>
+                    <span class="w-2 h-2 rounded-full bg-louder-red animate-ping"></span>
+                </div>
+                
+                <input type="text" id="typeInput" value="LOUD IS AN ART" oninput="updateTypeText(this.value)" class="w-full bg-black border border-white/20 p-3 text-sm font-mono text-white mb-6 focus:outline-none focus:border-louder-red">
+                
+                <div class="space-y-4 overflow-hidden">
+                    <div>
+                        <span class="text-[10px] font-mono text-louder-grey">96PX / HEAVY IMPACT</span>
+                        <p id="demoText1" class="text-4xl md:text-6xl font-black font-syne truncate text-white">LOUD IS AN ART</p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-mono text-louder-grey">48PX / OUTLINE STYLE</span>
+                        <p id="demoText2" class="text-2xl md:text-4xl font-black font-syne truncate text-outline">LOUD IS AN ART</p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-mono text-louder-grey">16PX / MONOSPACE CODE</span>
+                        <p id="demoText3" class="font-mono text-xs text-louder-red truncate">// LOUD IS AN ART</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 6 Design Approaches Section -->
+    <section id="approaches" class="border-t border-white/10 py-20 px-6 max-w-7xl mx-auto">
+        <div class="mb-12">
+            <span class="text-louder-red font-mono text-xs block mb-1">04. DESIGN APPROACHES</span>
+            <h2 class="text-3xl md:text-5xl font-black font-syne">الأساليب التصميمية الستة</h2>
+            <p class="text-louder-grey text-sm mt-2">تنوع مستمر في المنشورات يعتمد على 6 أساليب بصرية مختلفة</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Approach 1 -->
+            <div class="border border-white/10 bg-louder-black p-6 flex flex-col justify-between hover:border-louder-red transition-all group">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-mono text-xs text-louder-red">APPROACH 01</span>
+                        <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5">MINIMAL EDITORIAL</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-syne mb-2">1. Minimal Editorial</h3>
+                    <p class="text-xs text-louder-grey leading-relaxed mb-6">مساحات فارغة ناطقة مع تايبوغرافي ضخم يعلو لقطة سينمائية واحدة بالأبيض والأسود مع لمسة حمراء خفيفة.</p>
+                </div>
+                <div class="h-56 bg-black relative border border-white/10 p-4 flex flex-col justify-between overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80" class="absolute inset-0 w-full h-full object-cover grayscale opacity-40 group-hover:scale-105 transition-transform duration-500">
+                    <div class="relative z-10 text-4xl font-black font-syne text-white">SILENCE</div>
+                    <div class="relative z-10 flex justify-between items-end">
+                        <span class="font-mono text-[9px] text-louder-grey">VOL. 01 / EDITORIAL</span>
+                        <span class="w-3 h-3 bg-louder-red inline-block"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approach 2 -->
+            <div class="border border-white/10 bg-louder-black p-6 flex flex-col justify-between hover:border-louder-red transition-all group">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-mono text-xs text-louder-red">APPROACH 02</span>
+                        <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5">UNDERGROUND</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-syne mb-2">2. Collage & Cut-outs</h3>
+                    <p class="text-xs text-louder-grey leading-relaxed mb-6">تجميع طبقات من قصاصات ورقية، تأثيرات ريزوغراف، ونصوص تبدو مقصوصة يدوياً لأسلوب غير تقليدي.</p>
+                </div>
+                <div class="h-56 bg-louder-darkgrey relative border border-white/10 p-4 overflow-hidden flex items-center justify-center">
+                    <div class="absolute inset-0 bg-louder-red/10 mix-blend-multiply"></div>
+                    <div class="transform rotate-3 bg-white text-black p-3 font-mono font-bold text-xs shadow-xl border border-black">
+                        RAW CUT-OUT #09
+                    </div>
+                    <div class="transform -rotate-6 bg-louder-red text-white p-2 font-mono font-bold text-[10px] shadow-xl absolute bottom-4 right-4">
+                        EXPERIMENTAL
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approach 3 -->
+            <div class="border border-white/10 bg-louder-black p-6 flex flex-col justify-between hover:border-louder-red transition-all group">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-mono text-xs text-louder-red">APPROACH 03</span>
+                        <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5">DYNAMIC</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-syne mb-2">3. Kinetic & Motion Blur</h3>
+                    <p class="text-xs text-louder-grey leading-relaxed mb-6">إحساس بالسرعة والصوت بصرياً عبر تشويه ضوئي ونصوص مكررة ومسحوبة بحركة ديناميكية.</p>
+                </div>
+                <div class="h-56 bg-black relative border border-white/10 p-4 flex flex-col justify-center items-center overflow-hidden">
+                    <div class="text-3xl font-black font-syne text-white tracking-widest blur-motion">SPEED</div>
+                    <div class="text-3xl font-black font-syne text-louder-red tracking-widest blur-motion -mt-4 opacity-70">SPEED</div>
+                    <div class="text-3xl font-black font-syne text-white/30 tracking-widest blur-motion -mt-4 opacity-40">SPEED</div>
+                </div>
+            </div>
+
+            <!-- Approach 4 -->
+            <div class="border border-white/10 bg-louder-black p-6 flex flex-col justify-between hover:border-louder-red transition-all group">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-mono text-xs text-louder-red">APPROACH 04</span>
+                        <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5">TYPOGRAPHIC</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-syne mb-2">4. Raw Typographic Dominance</h3>
+                    <p class="text-xs text-louder-grey leading-relaxed mb-6">الاعتماد الكامل على النص كعنصر بصري أساسي دون تصوير، مع تباين ضخم في الأحجام والخطوط.</p>
+                </div>
+                <div class="h-56 bg-louder-red border border-white/10 p-4 flex flex-col justify-between overflow-hidden">
+                    <div class="text-6xl font-black font-syne text-black tracking-tighter leading-none">NO NOISE</div>
+                    <div class="text-xs font-mono text-white bg-black p-1 inline-block self-start">TYPE ONLY</div>
+                </div>
+            </div>
+
+            <!-- Approach 5 -->
+            <div class="border border-white/10 bg-louder-black p-6 flex flex-col justify-between hover:border-louder-red transition-all group">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-mono text-xs text-louder-red">APPROACH 05</span>
+                        <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5">ARCHIVAL</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-syne mb-2">5. Archive Film & Grain</h3>
+                    <p class="text-xs text-louder-grey leading-relaxed mb-6">جماليات السينما القديمة، إطارات الأفلام 35mm، التواريخ المطبوعة، وحبيبات الفيلـم الكثيفة.</p>
+                </div>
+                <div class="h-56 bg-black relative border border-white/10 p-3 flex flex-col justify-between">
+                    <div class="flex justify-between text-[9px] font-mono text-louder-red">
+                        <span>[KODAK 400]</span>
+                        <span>01:23:45</span>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80" class="h-32 object-cover grayscale opacity-70 border border-white/20">
+                    <div class="text-right text-[9px] font-mono text-white">MARCH 2026 ARCHIVE</div>
+                </div>
+            </div>
+
+            <!-- Approach 6 -->
+            <div class="border border-white/10 bg-louder-black p-6 flex flex-col justify-between hover:border-louder-red transition-all group">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-mono text-xs text-louder-red">APPROACH 06</span>
+                        <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5">MIXED MEDIA</span>
+                    </div>
+                    <h3 class="text-xl font-bold font-syne mb-2">6. Mixed Media Experimental</h3>
+                    <p class="text-xs text-louder-grey leading-relaxed mb-6">كسر القواعد البصرية عبر دمج عناصر 2D مع 3D، أشكال هندسية عائمة، وملصقات جرافيكية متداخلة.</p>
+                </div>
+                <div class="h-56 bg-louder-black relative border border-white/10 p-4 flex items-center justify-center overflow-hidden">
+                    <div class="w-24 h-24 rounded-full border-4 border-louder-red flex items-center justify-center">
+                        <div class="w-12 h-12 bg-white transform rotate-45"></div>
+                    </div>
+                    <span class="absolute top-2 right-2 bg-louder-red text-white text-[9px] font-mono px-2 py-0.5">STICKER</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Concepts Showcase Section -->
+    <section id="logos" class="border-t border-white/10 py-20 px-6 max-w-7xl mx-auto">
+        <div class="mb-12">
+            <span class="text-louder-red font-mono text-xs block mb-1">05. LOGO CONCEPTS</span>
+            <h2 class="text-3xl md:text-5xl font-black font-syne">مقترحات الشعار والتطبيقات</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Logo Concept 1 -->
+            <div class="border border-white/10 p-8 bg-louder-black text-center flex flex-col justify-between">
+                <div>
+                    <span class="font-mono text-xs text-louder-grey block mb-6">// CONCEPT A</span>
+                    <div class="py-12">
+                        <h3 class="text-4xl md:text-5xl font-black font-syne tracking-tighter text-white">LOUDER</h3>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 pt-4 text-xs font-mono text-louder-grey">
+                    Heavy Editorial Wordmark (Ultra Bold / Condensed)
+                </div>
+            </div>
+
+            <!-- Logo Concept 2 -->
+            <div class="border border-white/10 p-8 bg-louder-black text-center flex flex-col justify-between">
+                <div>
+                    <span class="font-mono text-xs text-louder-grey block mb-6">// CONCEPT B</span>
+                    <div class="py-12 relative flex justify-center items-center">
+                        <h3 class="text-4xl md:text-5xl font-black font-syne tracking-tighter text-louder-red absolute transform translate-x-1 translate-y-1 opacity-70">LOUDER</h3>
+                        <h3 class="text-4xl md:text-5xl font-black font-syne tracking-tighter text-white relative">LOUDER</h3>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 pt-4 text-xs font-mono text-louder-grey">
+                    Visual Distortion & Motion Stamp
+                </div>
+            </div>
+
+            <!-- Logo Concept 3 -->
+            <div class="border border-white/10 p-8 bg-louder-black text-center flex flex-col justify-between">
+                <div>
+                    <span class="font-mono text-xs text-louder-grey block mb-6">// CONCEPT C</span>
+                    <div class="py-10 flex justify-center">
+                        <div class="border-2 border-white p-4 w-36 h-36 flex flex-col justify-between text-left">
+                            <span class="text-[9px] font-mono text-louder-red">VOL. 01</span>
+                            <span class="text-2xl font-black font-syne text-white">LDR.</span>
+                            <span class="text-[8px] font-mono text-white/60">LOUD IS AN ART</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 pt-4 text-xs font-mono text-louder-grey">
+                    Underground Archive Stamp
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-12 px-6 bg-black text-center font-mono text-xs text-louder-grey">
+        <p class="mb-2">LOUDER — BRAND CREATIVE DIRECTION & MOODBOARD REFERENCE</p>
+        <p class="text-white/40">"LOUD IS AN ART." ALL RIGHTS RESERVED 2026.</p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Copy Toast function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.innerText = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // Copy Color Code
+        function copyColor(hex) {
+            document.execCommand('copy');
+            showToast(`تم نسخ كود اللون: ${hex}`);
+        }
+
+        // Copy Manifesto Text
+        function copyManifesto() {
+            const text = "LOUDER IS AN ART. CREATIVE DIRECTION: BOLD, EXPERIMENTAL, UNCONVENTIONAL.";
+            document.execCommand('copy');
+            showToast("تم نسخ البيان الإبداعي (Manifesto)!");
+        }
+
+        // Type Tester Live Updater
+        function updateTypeText(val) {
+            const text = val.trim() === '' ? 'LOUD IS AN ART' : val;
+            document.getElementById('demoText1').innerText = text;
+            document.getElementById('demoText2').innerText = text;
+            document.getElementById('demoText3').innerText = text;
+        }
+    </script>
+</body>
+</html>
